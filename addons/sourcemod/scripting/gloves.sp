@@ -90,6 +90,11 @@ public Action CommandGlove(int client, int args)
 {
 	if (IsValidClient(client))
 	{
+		if (!GetAdminFlag(GetUserAdmin(client), Admin_Reservation, Access_Effective))
+		{
+			ClientCommand(client,"play buttons/weapon_cant_buy.wav");
+			return Plugin_Handled;
+		}
 		CreateMainMenu(client).Display(client, MENU_TIME_FOREVER);
 	}
 	return Plugin_Handled;
@@ -133,6 +138,12 @@ public void ConVarCallBack(QueryCookie cookie, int client, ConVarQueryResult res
 
 public void GivePlayerGloves(int client)
 {
+	if (!GetAdminFlag(GetUserAdmin(client), Admin_Reservation, Access_Effective))
+	{
+		ClientCommand(client,"play buttons/weapon_cant_buy.wav");
+		return Plugin_Handled;
+	}
+		
 	int playerTeam = GetClientTeam(client);
 	if(g_iGloves[client][playerTeam] != 0)
 	{
